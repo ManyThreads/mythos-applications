@@ -2,5 +2,5 @@
 	path = mythos
 	url = git@github.com:ManyThreads/mythos.git
 [submodule "applications/HiPSmixer"]
-	path = applications/HiPSmixer
+	path = applications/hipsmixer/HiPSmixer
 	url = git@git.informatik.tu-cottbus.de:Numerical_Fluid_and_Gasdynamics/HiPSmixer.git
