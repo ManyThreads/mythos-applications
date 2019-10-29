@@ -1,0 +1,22 @@
+######################## COMPILATION ########################
+# set PARALLEL to YES or NO
+
+# toggel by commenting with # or set it to some compiler like, g++, icc, mpic++
+CC           = g++
+
+
+PARALLEL    = 
+IO_NETCDF   = NO
+CLUSTER_RUN = NO
+ANYDSL      = NO
+
+# INSTALL AND BUILD TOOLS
+YAML_INSTALLATION        = NO
+TRACING_INSTALLATION     = NO
+HYPRE_INSTALLATION       = NO
+CATCH_INSTALLATION       = NO
+
+# ATTENTION THAT FLAG WILL SLOW THE EXECUTION HEAVILY
+# set to YES  to enable a tracing output, otherwise set it to NO
+# TRACING_INSTALLATION needs to be set to YES
+TRACING     = NO
