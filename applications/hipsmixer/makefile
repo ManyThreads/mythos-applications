@@ -155,6 +155,7 @@ purge:
 	@echo "";
 	@echo "$(YELLOW_)##### Removing all objects, tests, results and run files \
 	... #####$(NOCOLOR)";\
+	$(RM) $(shell find -type f -name '*.a'    )           \
 	$(RM) $(shell find -type f -name '*.o'    )           \
 	$(RM) $(shell find -type f -name '*.to'   )           \
 	$(RM) $(shell find -type f -name '*.x'    )           \
