@@ -46,7 +46,7 @@
 mythos::InvocationBuf* msg_ptr asm("msg_ptr");
 int main() asm("main");
 
-constexpr uint64_t stacksize = 4*4096;
+constexpr uint64_t stacksize = 64*4096;
 char initstack[stacksize];
 char* initstack_top = initstack+stacksize;
 
@@ -57,3 +57,21 @@ mythos::KernelMemory kmem(mythos::init::KM);
 mythos::SimpleCapAllocDel capAlloc(portal, myCS, mythos::init::APP_CAP_START,
                                   mythos::init::SIZE-mythos::init::APP_CAP_START);
 
+__attribute__((constructor))
+static void initMythos(){
+  mythos::localEC = mythos::init::EC; //important initialization!!
+
+  MLOG_INFO(mlog::app, "Mythos: Init Heap");
+  mythos::PortalLock pl(portal);
+  uintptr_t vaddr = 22*1024*1024; // choose address different from invokation buffer
+  auto size = 4*1024*1024; // 2 MB
+  auto align = 2*1024*1024; // 2 MB
+  mythos::Frame f(capAlloc());
+  auto res2 = f.create(pl, kmem, size, align).wait();
+  // map the frame into our address space
+  auto res3 = myAS.mmap(pl, f, vaddr, size, 0x1).wait();
+  MLOG_INFO(mlog::app, "mmap frame", DVAR(res3.state()),
+            DVARhex(res3->vaddr), DVAR(res3->level));
+  mythos::heap.addRange(vaddr, size);
+	
+}
