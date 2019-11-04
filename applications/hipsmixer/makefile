@@ -4,6 +4,7 @@ ifndef $(SETTINGS)
 endif
 
 include make.$(SETTINGS)
+include ../../../Makefile.user
 
 #-------------------------------------------------------------------------------
 # C++ Compiler and compiler options
@@ -16,6 +17,7 @@ CFLAGS           += -nostdlib -fopenmp -nostdinc -nostdinc++ -O2
 CFLAGS           += -isystem ../../../mythos/3rdparty/cxx-amd64/usr/include/c++/v1 
 CFLAGS           += -isystem ../../../mythos/3rdparty/cxx-amd64/usr/include
 CFLAGS           += -I../../../kernel-amd64/ -MP -MMD -pipe 
+CFLAGS           += $(CPPFLAGS)
 
 AR               := ar
 ARFLAGS          := rvs
