@@ -11,7 +11,7 @@ include ../../../Makefile.user
 #-------------------------------------------------------------------------------
 
 CC               ?= g++
-CFLAGS           := -std=c++11 -march=native -Wfatal-errors -g
+CFLAGS           := -std=c++11 -march=x86-64 -Wfatal-errors -g
 CFLAGS           += -fno-stack-protector 
 CFLAGS           += -nostdlib -fopenmp -nostdinc -nostdinc++ -O2 
 CFLAGS           += -isystem ../../../mythos/3rdparty/cxx-amd64/usr/include/c++/v1 
