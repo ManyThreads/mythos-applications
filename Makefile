@@ -2,7 +2,7 @@
 
 # targets
 
-all: kernel-amd64.log 
+all: kernel-amd64.log kernel-ihk.log 
 
 setup: 
 	git submodule update --init --recursive
@@ -13,6 +13,7 @@ setup:
 clean:
 	rm -f *.log
 	rm -rf kernel-amd64
+	rm -rf kernel-ihk
 
 # rules
 
