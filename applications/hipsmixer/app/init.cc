@@ -54,37 +54,32 @@ mythos::Portal portal(mythos::init::PORTAL, msg_ptr);
 mythos::CapMap myCS(mythos::init::CSPACE);
 mythos::PageMap myAS(mythos::init::PML4);
 mythos::KernelMemory kmem(mythos::init::KM);
-mythos::SimpleCapAllocDel capAlloc(portal, myCS, mythos::init::APP_CAP_START,
-                                  mythos::init::SIZE-mythos::init::APP_CAP_START);
+mythos::SimpleCapAllocDel capAlloc(portal, myCS, mythos::init::APP_CAP_START+3,
+                                  mythos::init::SIZE-mythos::init::APP_CAP_START-3);
 
-//__attribute__((constructor))
-void initMythos(){
-  //MLOG_INFO(mlog::app, "init Mythos");
-  //mythos::localEC = mythos::init::EC; //important initialization!!
-
-  mythos::PortalLock pl(portal);
+extern "C" void _init(){
+  MLOG_INFO(mlog::app, "_init");
+mythos::Portal initportal(mythos::init::PORTAL, msg_ptr);
+mythos::CapMap initmyCS(mythos::init::CSPACE);
+mythos::PageMap initmyAS(mythos::init::PML4);
+mythos::KernelMemory initkmem(mythos::init::KM);
+  mythos::PortalLock pl(initportal);
   uintptr_t vaddr = 4096 << 18;
-  
-  //MLOG_INFO(mlog::app, "create page map");
-  mythos::PageMap p2(capAlloc());
-  p2.create(pl, kmem, 2);
-  
-  //MLOG_INFO(mlog::app, "map level 2 page map on level 3", DVARhex(vaddr));
-  auto res1 = myAS.installMap(pl, p2, vaddr, 3,
-                              mythos::protocol::PageMap::MapFlags().writable(true).configurable(true)).wait();
+  mythos::PageMap p20(mythos::init::APP_CAP_START);
+  mythos::PageMap p21(mythos::init::APP_CAP_START+1);
+  p20.create(pl, initkmem, 2).wait();
+  auto res1 = initmyAS.installMap(pl, p20, vaddr, 3,
+      mythos::protocol::PageMap::MapFlags().writable(true).configurable(true)).wait();
+  p21.create(pl, initkmem, 2).wait();
+  res1 = initmyAS.installMap(pl, p21, 2*vaddr, 3,
+      mythos::protocol::PageMap::MapFlags().writable(true).configurable(true)).wait();
 
-  //MLOG_INFO(mlog::app, "Mythos: Init Heap");
-  //uintptr_t vaddr = 22*1024*1024; // choose address different from invokation buffer
-  
-  auto size = 512*1024*1024; // 2 MB
+  auto size = 2000*1024*1024; // 2 GB
   auto align = 2*1024*1024; // 2 MB
 
-  mythos::Frame f(capAlloc());
-  auto res2 = f.create(pl, kmem, size, align).wait();
-  // map the frame into our address space
-  auto res3 = myAS.mmap(pl, f, vaddr , size, 0x1).wait();
-  //MLOG_INFO(mlog::app, "mmap frame", DVAR(res3.state()),
-	    //DVARhex(res3->vaddr), DVAR(res3->level));
+  mythos::Frame f(mythos::init::APP_CAP_START+2);
+  auto res2 = f.create(pl, initkmem, size, align).wait();
+  auto res3 = initmyAS.mmap(pl, f, vaddr , size, 0x1).wait();
+  mythos::heap.init();
   mythos::heap.addRange(vaddr , size);
-	
 }
