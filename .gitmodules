@@ -4,3 +4,6 @@
 [submodule "applications/HiPSmixer"]
 	path = applications/hipsmixer/HiPSmixer
 	url = git@git.informatik.tu-cottbus.de:Numerical_Fluid_and_Gasdynamics/HiPSmixer.git
+[submodule "libraries/musl"]
+	path = libraries/musl
+	url = git@github.com:ManyThreads/musl-mythos.git
