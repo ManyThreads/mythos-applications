@@ -4,11 +4,14 @@
 
 all: kernel-amd64.log kernel-ihk.log 
 
-setup: 
+init:
 	git submodule update --init --recursive
+
+setup: 
 	mythos/3rdparty/mcconf/install-python-libs.sh
 	mythos/3rdparty/install-libcxx.sh
 	mythos/3rdparty/install-ihk.sh
+	libraries/install-libcxx.sh
 
 clean:
 	rm -f *.log
