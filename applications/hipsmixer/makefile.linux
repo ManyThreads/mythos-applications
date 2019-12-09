@@ -19,7 +19,9 @@ CFLAGS           += -fopenmp -specs "../../../libraries/cxx-amd64/usr/lib/musl-g
 #CFLAGS           += -I../../../kernel-amd64/ 
 CFLAGS           += -MP -MMD -pipe -Wl,--eh-frame-hdr  
 CFLAGS           += $(CPPFLAGS)
+ifdef $(BENCH_ITERATIONS)
 CFLAGS           += -DBENCH_ITERATIONS=${BENCH_ITERATIONS}
+endif
 
 AR               := ar
 ARFLAGS          := rvs
