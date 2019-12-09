@@ -6,11 +6,11 @@
 
     makefile_head = '''
 HIPS_PATH := ../applications/hipsmixer/HiPSmixer/
-HIPS_MAKEFILE := ../makefile
+HIPS_MAKEFILE := ../makefile.mythos
 HIPS_RUN_PATH := $(HIPS_PATH)/run/ODTLES-IMEX-3R-Serial-Channel.a
 
 #HIPS_TARGETS := aN=X tN=X pN=ODT* NTHREADS=2 openmp 
-HIPS_TARGETS := aN=X tN=X pN=ODT*
+HIPS_TARGETS := aN=X tN=X pN=ODT* $(HIPSARGS)
 
 TARGETS += app/init.elf
 APP_CXXFLAGS += -fopenmp -O3
