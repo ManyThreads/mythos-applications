@@ -1,0 +1,14 @@
+Mythos IHK sequential heap:
+Duration of run: 182:265308
+Mythos IHK musl heap:
+Duration of run: 165:188196
+ODT Mythos IHK openMP 1:
+Duration of run: 165:114167
+ODT Mythos IHK openMP 2:
+Duration of run: 121:406874
+Linux:
+Duration of run: 157:670332
+ODT Linux openMP 1:
+Duration of run: 170:861245
+ODT Linux openMP 2:
+Duration of run: 122:529121
