@@ -20,7 +20,7 @@ cd ${SCRIPTDIR}/..
 make --silent clean setup all > /dev/null
 cd - 
 
-########################################
+#######################################
 echo "Mythos IHK sequential heap:" | tee -a ${SCRIPTDIR}/${SUMMARYFILE}
 cd ${SCRIPTDIR}/../kernel-ihk
 
