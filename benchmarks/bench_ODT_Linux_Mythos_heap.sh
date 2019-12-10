@@ -2,9 +2,14 @@
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+#periodically delay sudo timeout
+sudo echo "sudo sudo"
+while :; do echo "refresh sudo"; sudo -v; sleep 59; done &
+sudoinfiniloop=$!
+
 #config
-ITERATIONS=3
-NUMTHREADS="1 2"
+ITERATIONS=1
+NUMTHREADS="1 2 4"
 SUMMARYFILE="bench_summary.out"
 
 
@@ -95,3 +100,6 @@ do
 	cd -
 	rm ${SCRIPTDIR}/run.out
 done
+
+#enable sudo timeout
+kill "sudoinfiniloop"
