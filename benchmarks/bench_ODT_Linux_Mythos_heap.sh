@@ -9,7 +9,7 @@ echo $singlecpu
 #config
 SUMMARYFILE="bench_summary.out"
 ITERATIONS=1
-NUMTHREADS=(1 2 4 6 8)
+NUMTHREADS=(1 2 4 6)
 
 for i in ${NUMTHREADS[*]}
 do

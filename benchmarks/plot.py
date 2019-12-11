@@ -28,11 +28,9 @@ data_linux_OMP4      = read_data("ODTLinuxOMP4.out")
 data_mythos_OMP4     = read_data("ODTMythosOMP4.out")
 data_linux_OMP6      = read_data("ODTLinuxOMP6.out")
 data_mythos_OMP6     = read_data("ODTMythosOMP6.out")
-data_linux_OMP8      = read_data("ODTLinuxOMP8.out")
-data_mythos_OMP8     = read_data("ODTMythosOMP8.out")
 
-data_to_plot_1 = [data_linux_OMP1, data_linux_OMP2, data_linux_OMP4, data_linux_OMP6, data_linux_OMP8]
-data_to_plot_2 = [data_mythos_OMP1, data_mythos_OMP2, data_mythos_OMP4, data_mythos_OMP6, data_mythos_OMP8]
+data_to_plot_1 = [data_linux_OMP1, data_linux_OMP2, data_linux_OMP4, data_linux_OMP6]
+data_to_plot_2 = [data_mythos_OMP1, data_mythos_OMP2, data_mythos_OMP4, data_mythos_OMP6]
 
 x = np.array([900,2000])
 fig1, ax1 = plt.subplots()
@@ -40,7 +38,7 @@ ax1.set_title("Skalierbarkeit ODTLES")
 bp1 = plt.boxplot(data_to_plot_1,0,'',positions=x-150,widths=250, patch_artist=True, boxprops=dict(facecolor="C0"))
 bp2 = plt.boxplot(data_to_plot_2,0,'',positions=x+150,widths=250, patch_artist=True, boxprops=dict(facecolor="C2"))
 ax1.legend([bp1["boxes"][0], bp2["boxes"][0]], ['Linux', 'MyThOS'], loc='upper right')
-ax1.set_xticklabels(['1 Thread', '2 Threads', '4 Threads', '6 Threads', '8 Threads'])
+ax1.set_xticklabels(['1 Thread', '2 Threads', '4 Threads', '6 Threads'])
 ax1.set_xticks([900,2000])
 ax1.set_xlim([500,2500])
 ax1.set_ylabel("Laufzeit in Sekunden")
