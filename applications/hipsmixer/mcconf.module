@@ -14,6 +14,7 @@ HIPS_TARGETS := aN=X tN=X pN=ODT* $(HIPSARGS)
 
 TARGETS += app/init.elf
 APP_CXXFLAGS += -fopenmp -O3
+APP_CXXFLAGS += $(MYTHOSFLAGS)
 '''
 
     makefile_body = '''

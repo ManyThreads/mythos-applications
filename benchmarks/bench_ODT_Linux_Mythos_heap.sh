@@ -78,7 +78,7 @@ do
 	echo "ODT Mythos IHK openMP ${THREADS}:" | tee -a ${SCRIPTDIR}/${SUMMARYFILE}
 	cd ${SCRIPTDIR}/../kernel-ihk
 	echo ">> build mythos"
-	make --silent clean all HIPSARGS="NTHREADS=${THREADS} openmp BENCH_ITERATIONS=${ITERATIONS}" > /dev/null
+	make --silent clean all MYTHOSFLAGS="-DNUM_CPUS=${THREADS}" HIPSARGS="NTHREADS=${THREADS} openmp BENCH_ITERATIONS=${ITERATIONS}" > /dev/null
 
 	echo ">> run mythos"
 	sudo rm -rf /tmp/ihkmond
