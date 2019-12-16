@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sys as sys
 
 
 #function for reading the run times from ODTLES out files
@@ -16,71 +17,110 @@ def read_data( file_name ):
             line  = fp.readline()
     return(sorted(data))
 
-# list with amount of used threads e.g. [1,2,4,6,..]
-threads = [1,2,4,6]
+try:
+    #handover of number of threads
+    threads = float(sys.argv[1])
+except:
+    #exception handling
+    raise ValueError("Number of threads must be given in the call, "\
+                      "e.g. python plot.py 2")
+
+print("Number of threads:", threads)
 
 # reading data
 data_linux           = read_data("ODTLinux.out")
 data_mythos_muslheap = read_data("ODTMythosMuslHeap.out")
 data_mythos_seqheap  = read_data("ODTMythosSeqHeap.out")
-if(len(threads)>=1):
+if(threads==1):
     data_linux_OMP1      = read_data("ODTLinuxOMP1.out")
     data_mythos_OMP1     = read_data("ODTMythosOMP1.out")
-if(len(threads)>=2):
-    data_linux_OMP2      = read_data("ODTLinuxOMP2.out")
-    data_mythos_OMP2     = read_data("ODTMythosOMP2.out")
-if(len(threads)>=3):
-    data_linux_OMP4      = read_data("ODTLinuxOMP4.out")
-    data_mythos_OMP4     = read_data("ODTMythosOMP4.out")
-if(len(threads)>=4):
-    data_linux_OMP6      = read_data("ODTLinuxOMP6.out")
-    data_mythos_OMP6     = read_data("ODTMythosOMP6.out")
-if(len(threads)>=5):
-    data_linux_OMP8      = read_data("ODTLinuxOMP8.out")
-    data_mythos_OMP8     = read_data("ODTMythosOMP8.out")
-
-# data for scalability plot
-if(len(threads)>=1):
     data_to_plot_scalability_linux  = [data_linux_OMP1]
     data_to_plot_scalability_mythos = [data_mythos_OMP1]
-if(len(threads)>=2):
+elif(threads==2):
+    data_linux_OMP1      = read_data("ODTLinuxOMP1.out")
+    data_mythos_OMP1     = read_data("ODTMythosOMP1.out")
+    data_linux_OMP2      = read_data("ODTLinuxOMP2.out")
+    data_mythos_OMP2     = read_data("ODTMythosOMP2.out")
     data_to_plot_scalability_linux  = [data_linux_OMP1, data_linux_OMP2]
     data_to_plot_scalability_mythos = [data_mythos_OMP1, data_mythos_OMP2]
-if(len(threads)>=3):
+elif(threads==4):
+    data_linux_OMP1      = read_data("ODTLinuxOMP1.out")
+    data_mythos_OMP1     = read_data("ODTMythosOMP1.out")
+    data_linux_OMP2      = read_data("ODTLinuxOMP2.out")
+    data_mythos_OMP2     = read_data("ODTMythosOMP2.out")
+    data_linux_OMP4      = read_data("ODTLinuxOMP4.out")
+    data_mythos_OMP4     = read_data("ODTMythosOMP4.out")
     data_to_plot_scalability_linux  = [data_linux_OMP1, data_linux_OMP2,
                                        data_linux_OMP4]
     data_to_plot_scalability_mythos = [data_mythos_OMP1, data_mythos_OMP2,
                                        data_mythos_OMP4]
-if(len(threads)>=4):
+elif(threads==6):
+    data_linux_OMP1      = read_data("ODTLinuxOMP1.out")
+    data_mythos_OMP1     = read_data("ODTMythosOMP1.out")
+    data_linux_OMP2      = read_data("ODTLinuxOMP2.out")
+    data_mythos_OMP2     = read_data("ODTMythosOMP2.out")
+    data_linux_OMP4      = read_data("ODTLinuxOMP4.out")
+    data_mythos_OMP4     = read_data("ODTMythosOMP4.out")
+    data_linux_OMP6      = read_data("ODTLinuxOMP6.out")
+    data_mythos_OMP6     = read_data("ODTMythosOMP6.out")
     data_to_plot_scalability_linux  = [data_linux_OMP1, data_linux_OMP2,
                                        data_linux_OMP4, data_linux_OMP6]
     data_to_plot_scalability_mythos = [data_mythos_OMP1, data_mythos_OMP2,
                                        data_mythos_OMP4, data_mythos_OMP6]
-if(len(threads)>=5):
+elif(threads==8):
+    data_linux_OMP1      = read_data("ODTLinuxOMP1.out")
+    data_mythos_OMP1     = read_data("ODTMythosOMP1.out")
+    data_linux_OMP2      = read_data("ODTLinuxOMP2.out")
+    data_mythos_OMP2     = read_data("ODTMythosOMP2.out")
+    data_linux_OMP4      = read_data("ODTLinuxOMP4.out")
+    data_mythos_OMP4     = read_data("ODTMythosOMP4.out")
+    data_linux_OMP6      = read_data("ODTLinuxOMP6.out")
+    data_mythos_OMP6     = read_data("ODTMythosOMP6.out")
+    data_linux_OMP8      = read_data("ODTLinuxOMP8.out")
+    data_mythos_OMP8     = read_data("ODTMythosOMP8.out")
     data_to_plot_scalability_linux  = [data_linux_OMP1, data_linux_OMP2,
                                        data_linux_OMP4, data_linux_OMP6,
                                        data_linux_OMP8]
     data_to_plot_scalability_mythos = [data_mythos_OMP1, data_mythos_OMP2,
                                        data_mythos_OMP4, data_mythos_OMP6,
                                        data_mythos_OMP8]
+else:
+    print("Number of threads not valid!")
 
+used_threads = [0,1,2,4,6,8]
 
+#find length of threads vector
+length_vec = 0
+for i in range(0, len(used_threads)):
+    if (threads== used_threads[i]):
+        length_vec = i
+        break
 
-x = np.linspace(0.0,1.0,len(threads))
+x = np.linspace(0.0,1.0,length_vec)
 fig1, ax1 = plt.subplots()
 ax1.set_title("Scalability of ODTLES")
 bp1 = plt.boxplot(data_to_plot_scalability_linux,0,'', widths=0.1,
-                 positions=x-1/len(threads)*0.25,
+                 positions=x-1/length_vec*0.25,
                  patch_artist=True, boxprops=dict(facecolor="C0"))
 bp2 = plt.boxplot(data_to_plot_scalability_mythos,0,'', widths=0.1,
-                 positions=x+1/len(threads)*0.25,
+                 positions=x+1/length_vec*0.25,
                  patch_artist=True, boxprops=dict(facecolor="C2"))
 ax1.legend([bp1["boxes"][0], bp2["boxes"][0]], ['Linux', 'MyThOS'],
                 loc='upper right')
-ax1.set_xticklabels(['1 Thread', '2 Threads', '4 Threads', '6 Threads'])
+if(threads==1):
+    ax1.set_xticklabels(['1 Thread'])
+if(threads==2):
+    ax1.set_xticklabels(['1 Thread', '2 Threads'])
+if(threads==4):
+    ax1.set_xticklabels(['1 Thread', '2 Threads', '4 Threads'])
+if(threads==6):
+    ax1.set_xticklabels(['1 Thread', '2 Threads', '4 Threads', '6 Threads'])
+if(threads==8):
+    ax1.set_xticklabels(['1 Thread', '2 Threads', '4 Threads', '6 Threads',
+                         '8 Threads'])
 plt.xticks(x)
-ax1.set_xlim([0.0-1.0*(1/len(threads)),1.0+1.0*(1/len(threads))])
-ax1.set_ylim([30,50])
+ax1.set_xlim([0.0-1.0*(1/threads),1.0+1.0*(1/threads)])
+#ax1.set_ylim([30,50])
 ax1.set_ylabel("Runtime in seconds")
 fig1.savefig("ODTLES.pdf")
 
