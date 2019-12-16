@@ -54,8 +54,8 @@ mythos::Portal portal(mythos::init::PORTAL, msg_ptr);
 mythos::CapMap myCS(mythos::init::CSPACE);
 mythos::PageMap myAS(mythos::init::PML4);
 mythos::KernelMemory kmem(mythos::init::KM);
-mythos::SimpleCapAllocDel capAlloc(portal, myCS, mythos::init::APP_CAP_START+3,
-                                  mythos::init::SIZE-mythos::init::APP_CAP_START-3);
+mythos::SimpleCapAllocDel capAlloc(portal, myCS, mythos::init::APP_CAP_START+4,
+                                  mythos::init::SIZE-mythos::init::APP_CAP_START-4);
 
 extern "C" void _init(){
   MLOG_INFO(mlog::app, "_init");
@@ -67,17 +67,21 @@ mythos::KernelMemory initkmem(mythos::init::KM);
   uintptr_t vaddr = 4096 << 18;
   mythos::PageMap p20(mythos::init::APP_CAP_START);
   mythos::PageMap p21(mythos::init::APP_CAP_START+1);
+  mythos::PageMap p22(mythos::init::APP_CAP_START+2);
   p20.create(pl, initkmem, 2).wait();
   auto res1 = initmyAS.installMap(pl, p20, vaddr, 3,
       mythos::protocol::PageMap::MapFlags().writable(true).configurable(true)).wait();
   p21.create(pl, initkmem, 2).wait();
   res1 = initmyAS.installMap(pl, p21, 2*vaddr, 3,
       mythos::protocol::PageMap::MapFlags().writable(true).configurable(true)).wait();
+  p22.create(pl, initkmem, 2).wait();
+  res1 = initmyAS.installMap(pl, p22, 3*vaddr, 3,
+      mythos::protocol::PageMap::MapFlags().writable(true).configurable(true)).wait();
 
-  auto size = 2000*1024*1024; // 2 GB
+  auto size = 3000*1024*1024ul; // 2 GB
   auto align = 2*1024*1024; // 2 MB
 
-  mythos::Frame f(mythos::init::APP_CAP_START+2);
+  mythos::Frame f(mythos::init::APP_CAP_START+3);
   auto res2 = f.create(pl, initkmem, size, align).wait();
   auto res3 = initmyAS.mmap(pl, f, vaddr , size, 0x1).wait();
   mythos::heap.init();

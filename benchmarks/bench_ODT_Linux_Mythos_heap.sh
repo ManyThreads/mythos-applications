@@ -47,7 +47,7 @@ make --silent clean sequentialHeap all HIPSARGS="BENCH_ITERATIONS=${ITERATIONS}"
 
 echo ">> run mythos"
 sudo rm -rf /tmp/ihkmond
-sudo ../mythos/3rdparty/ihkreboot.sh -m 2048M -k 1 -c ${singlecpu} -p ${SCRIPTDIR}/../kernel-ihk/boot64.elf
+sudo ../mythos/3rdparty/ihkreboot.sh -m 4096M -k 1 -c ${singlecpu} -p ${SCRIPTDIR}/../kernel-ihk/boot64.elf
 make wait stop | tee ${SCRIPTDIR}/run.out 
 grep "Duration" ${SCRIPTDIR}/run.out | tee -a ${SCRIPTDIR}/${SUMMARYFILE} >  ${SCRIPTDIR}/ODTMythosSeqHeap.out
 cd -
@@ -62,7 +62,7 @@ make --silent clean all HIPSARGS="BENCH_ITERATIONS=${ITERATIONS}"> /dev/null
 
 echo ">> run mythos"
 sudo rm -rf /tmp/ihkmond
-sudo ../mythos/3rdparty/ihkreboot.sh -m 2048M -k 1 -c ${singlecpu} -p ${SCRIPTDIR}/../kernel-ihk/boot64.elf
+sudo ../mythos/3rdparty/ihkreboot.sh -m 4096M -k 1 -c ${singlecpu} -p ${SCRIPTDIR}/../kernel-ihk/boot64.elf
 make wait stop | tee ${SCRIPTDIR}/run.out 
 grep "Duration" ${SCRIPTDIR}/run.out | tee -a ${SCRIPTDIR}/${SUMMARYFILE} >  ${SCRIPTDIR}/ODTMythosMuslHeap.out
 cd -
@@ -82,7 +82,7 @@ do
 
 	echo ">> run mythos"
 	sudo rm -rf /tmp/ihkmond
-	sudo ../mythos/3rdparty/ihkreboot.sh -m 2048M -k 1 -c ${usedcpus} -p ${SCRIPTDIR}/../kernel-ihk/boot64.elf
+	sudo ../mythos/3rdparty/ihkreboot.sh -m 4096M -k 1 -c ${usedcpus} -p ${SCRIPTDIR}/../kernel-ihk/boot64.elf
 	make wait stop | tee ${SCRIPTDIR}/run.out 
 	grep "Duration" ${SCRIPTDIR}/run.out | tee -a ${SCRIPTDIR}/${SUMMARYFILE} >  ${SCRIPTDIR}/ODTMythosOMP${THREADS}.out
 	cd -
