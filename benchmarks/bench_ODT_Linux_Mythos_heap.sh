@@ -8,7 +8,7 @@ echo $singlecpu
 
 #config
 SUMMARYFILE="bench_summary.out"
-ITERATIONS=1
+ITERATIONS=10
 NUMTHREADS=(1 2 4 6)
 
 for i in ${NUMTHREADS[*]}
@@ -22,7 +22,7 @@ done
 
 #periodically delay sudo timeout
 sudo echo "sudo sudo"
-while :; do echo "refresh sudo"; sudo -v; sleep 59; done &
+while :; do sudo -v; sleep 59; done &
 sudoinfiniloop=$!
 
 
@@ -35,7 +35,7 @@ touch ${SCRIPTDIR}/${SUMMARYFILE}
 
 echo "Setup:"
 cd ${SCRIPTDIR}/..
-make --silent clean setup all > /dev/null
+make --silent clean all > /dev/null
 cd - 
 
 ########################################
@@ -49,7 +49,7 @@ echo ">> run mythos"
 sudo rm -rf /tmp/ihkmond
 sudo ../mythos/3rdparty/ihkreboot.sh -m 4096M -k 1 -c ${singlecpu} -p ${SCRIPTDIR}/../kernel-ihk/boot64.elf
 make wait stop | tee ${SCRIPTDIR}/run.out 
-grep "Duration" ${SCRIPTDIR}/run.out | tee -a ${SCRIPTDIR}/${SUMMARYFILE} >  ${SCRIPTDIR}/ODTMythosSeqHeap.out
+grep "Duration" ${SCRIPTDIR}/run.out | sed 's/^.*\(Duration.*\).$/\1/' | tee -a ${SCRIPTDIR}/${SUMMARYFILE} >  ${SCRIPTDIR}/ODTMythosSeqHeap.out
 cd -
 rm ${SCRIPTDIR}/run.out
 
@@ -64,7 +64,7 @@ echo ">> run mythos"
 sudo rm -rf /tmp/ihkmond
 sudo ../mythos/3rdparty/ihkreboot.sh -m 4096M -k 1 -c ${singlecpu} -p ${SCRIPTDIR}/../kernel-ihk/boot64.elf
 make wait stop | tee ${SCRIPTDIR}/run.out 
-grep "Duration" ${SCRIPTDIR}/run.out | tee -a ${SCRIPTDIR}/${SUMMARYFILE} >  ${SCRIPTDIR}/ODTMythosMuslHeap.out
+grep "Duration" ${SCRIPTDIR}/run.out | sed 's/^.*\(Duration.*\).$/\1/' | tee -a ${SCRIPTDIR}/${SUMMARYFILE} >  ${SCRIPTDIR}/ODTMythosMuslHeap.out
 cd -
 rm ${SCRIPTDIR}/run.out
 
@@ -84,7 +84,7 @@ do
 	sudo rm -rf /tmp/ihkmond
 	sudo ../mythos/3rdparty/ihkreboot.sh -m 4096M -k 1 -c ${usedcpus} -p ${SCRIPTDIR}/../kernel-ihk/boot64.elf
 	make wait stop | tee ${SCRIPTDIR}/run.out 
-	grep "Duration" ${SCRIPTDIR}/run.out | tee -a ${SCRIPTDIR}/${SUMMARYFILE} >  ${SCRIPTDIR}/ODTMythosOMP${THREADS}.out
+	grep "Duration" ${SCRIPTDIR}/run.out | sed 's/^.*\(Duration.*\).$/\1/' | tee -a ${SCRIPTDIR}/${SUMMARYFILE} >  ${SCRIPTDIR}/ODTMythosOMP${THREADS}.out
 	cd -
 	rm ${SCRIPTDIR}/run.out
 done
