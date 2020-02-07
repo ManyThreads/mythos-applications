@@ -7,5 +7,5 @@ CPPFLAGS+= -DMLOG_SCHED=FilterWarning
 CPPFLAGS+= -DMLOG_SYSCALL=FilterWarning
 CPPFLAGS+= -DMLOG_EC=FilterWarning
 CPPFLAGS+= -DMLOG_KM=FilterWarning
-CPPFLAGS+= -DMLOG_IRQ=FilterWarning
+CPPFLAGS+= -DMLOG_IRQ=FilterAny
 CPPFLAGS+= -DMLOG_PORTAL=FilterError

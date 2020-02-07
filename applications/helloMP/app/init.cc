@@ -42,6 +42,9 @@
 #include "util/optional.hh"
 #include "runtime/umem.hh"
 #include "runtime/Mutex.hh"
+#include "cpu/ctrlregs.hh"
+#include "mythos/protocol/PerfMon.hh"
+
 
 #include <omp.h>
 
@@ -111,6 +114,34 @@ int main()
   char const str[] = "hello world!";
   char const end[] = "bye, cruel world!";
   mythos::syscall_debug(str, sizeof(str)-1);
+
+  mythos::x86::Regs regs;
+
+  regs = mythos::x86::cpuid(0x0A);
+  
+  uint32_t versionID = mythos::bits(regs.eax,7,0);
+  uint32_t numberMSR = mythos::bits(regs.eax,15,8);
+  uint32_t bitWidthMSR = mythos::bits(regs.eax,23,16);
+
+  MLOG_INFO(mlog::app, "CPUID.0AH:EAX[7:0]", DVAR(versionID));
+  MLOG_INFO(mlog::app, "CPUID.0AH:EAX[15:8]", DVAR(numberMSR));
+  MLOG_INFO(mlog::app, "CPUID.0AH:EAX[23:16]", DVAR(bitWidthMSR));
+
+  {
+    mythos::PortalLock pl(portal);
+    pl.invoke<mythos::protocol::PerformanceMonitoring::StartMonitoring>(mythos::init::PERFORMANCE_MONITORING_MODULE);
+  }
+
+  uint32_t perfevtselAdress = 0x186;
+  uint64_t perfevtselValue = 0x030214;
+
+  //mythos::x86::setMSR(perfevtselAdress, perfevtselValue);
+
+  uint32_t pmcAdress = 0x0C1;
+  uint64_t pmcValue = 0;
+
+  //mythos::x86::setMSR(pmcAdress, pmcValue);
+  //
 
   test_omp();
 
