@@ -7,3 +7,6 @@
 [submodule "libraries/musl"]
 	path = libraries/musl
 	url = git@github.com:ManyThreads/musl-mythos.git
+[submodule "libraries/tbb"]
+	path = libraries/tbb
+	url = git@github.com:ManyThreads/tbb.git

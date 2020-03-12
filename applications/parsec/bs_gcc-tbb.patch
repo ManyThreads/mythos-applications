@@ -1,0 +1,11 @@
+--- gcc-tbb.bldconf	2013-07-28 16:39:45.000000000 +0200
++++ gcc-tbb.bldconf_new	2020-03-10 13:23:38.949922388 +0100
+@@ -15,7 +15,7 @@
+ 
+ 
+ # Package dependencies
+-build_deps="tbblib"
++build_deps=""
+ 
+ # Environment to use for configure script and Makefile
+ build_env="version=tbb"

@@ -1,0 +1,14 @@
+--- gcc-tbb.bldconf	2013-07-28 16:38:51.000000000 +0200
++++ gcc-tbb.bldconf_new	2020-03-10 11:43:01.463897189 +0100
+@@ -10,9 +10,9 @@
+ 
+ # Arguments for programs that use the Intel Threading Building Blocks
+ # More information: http://www.threadingbuildingblocks.org/
+-TBB_CFLAGS="-I${PARSECDIR}/pkgs/libs/tbblib/inst/${PARSECPLAT}/include"
++TBB_CFLAGS="-I${PARSECDIR}/../../../libraries/tbb/include"
+ TBB_CXXFLAGS="${TBB_CFLAGS}"
+-TBB_LDFLAGS="-L${PARSECDIR}/pkgs/libs/tbblib/inst/${PARSECPLAT}/lib"
++TBB_LDFLAGS="-L${PARSECDIR}/../../../libraries/tbb/build/my_tbb_release"
+ TBB_LIBS="-ltbb -ltbbmalloc_proxy -ltbbmalloc -ldl -lrt -lpthread"
+ 
+ # Append to global arguments
