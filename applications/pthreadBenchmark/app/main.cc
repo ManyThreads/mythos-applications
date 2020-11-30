@@ -49,10 +49,47 @@ void bench_pthreads(){
 }
 
 
+void bench_pthreads_loop(unsigned count){
+  std::cout << "Test Pthreads loop" << std::endl;
+ 
+  timeval start, create, running, join;
+  
+  asm volatile ("":::"memory");
+  gettimeofday(&start, 0);
+	asm volatile ("":::"memory");
+
+  for(unsigned i = 0; i < count; i++){
+    //std::cout << "Loop " << i << std::endl;
+    started.store(false);
+
+    pthread_t p;
+    auto tmp = pthread_create(&p, NULL, &threadBench, (void*) 0xBEEF);
+    if(!tmp){ 
+      while(!started.load());
+      pthread_join(p, NULL);
+    }
+  }
+
+  asm volatile ("":::"memory");
+  gettimeofday(&join, 0);
+	asm volatile ("":::"memory");
+
+  double jseconds =(join.tv_usec - start.tv_usec)/1000000.0 + join.tv_sec - start.tv_sec;
+
+  std::cout << "Pthread_loop (" << count << " iterations) finished after "<< jseconds << "s" << std::endl; 
+  std::cout << "End Test Pthreads_loop" << std::endl;
+}
+
 int main(){
   std::cout << "Main started" << std::endl;
   
-  bench_pthreads();
+  for(int i=0; i < 8; i++){
+    bench_pthreads();
+  }
+
+  for(int i=0; i < 2; i++){
+    bench_pthreads_loop(1000);
+  }
 
   return 0;
 };

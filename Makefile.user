@@ -9,3 +9,4 @@ CPPFLAGS+= -DMLOG_EC=FilterWarning
 CPPFLAGS+= -DMLOG_KM=FilterWarning
 CPPFLAGS+= -DMLOG_IRQ=FilterWarning
 CPPFLAGS+= -DMLOG_PORTAL=FilterError
+CPPFLAGS+= -DMLOG_PM=FilterWarning
