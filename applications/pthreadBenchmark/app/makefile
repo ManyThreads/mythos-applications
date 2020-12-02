@@ -11,15 +11,18 @@ CFLAGS           += -fopenmp -specs "../../../libraries/cxx-amd64/usr/lib/musl-g
 #CFLAGS           += -I../../../kernel-amd64/ 
 CFLAGS           += -MP -MMD -pipe -Wl,--eh-frame-hdr  
 CFLAGS           += $(CPPFLAGS)
+APP_CXXFLAGS		 := $(BENCH_APP_FLAGS)
 
 APP_LIBS         := ../../../libraries/cxx-amd64/usr/lib/libomp.a ../../../libraries/cxx-amd64/usr/lib/libc++.a ../../../libraries/cxx-amd64/usr/lib/libc++abi.a ../../../libraries/cxx-amd64/usr/lib/libunwind.a ../../../libraries/cxx-amd64/usr/lib/libc.a -lgcc 
 
 main : main.cc 
-	$(CC) $(CFLAGS) main.cc -o main $(APP_LIBS)
+	$(CC) $(CFLAGS) $(APP_CXXFLAGS) main.cc -o main $(APP_LIBS)
 	@echo "done"
 
 run : main
 	./main
+
+all: main
 
 clean :
 	rm main
