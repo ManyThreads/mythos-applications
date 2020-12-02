@@ -82,7 +82,7 @@ rm ${SCRIPTDIR}/run.out
 
 # plot results
 cd ${SCRIPTDIR}
-#python3 plot.py
+python3 PM/plot.py
 hostname=`hostname`
 time=`date +%y-%m-%d_%H:%M`
 outdir="PM/${hostname}_${time}"
