@@ -58,7 +58,7 @@ mythos::PageMap myAS(mythos::init::PML4);
 mythos::KernelMemory kmem(mythos::init::KM);
 mythos::SimpleCapAllocDel capAlloc(portal, myCS, mythos::init::APP_CAP_START+4,
                                   mythos::init::SIZE-mythos::init::APP_CAP_START-4);
-mythos::ProcessorManagement pm(mythos::init::PROCESSOR_MANAGEMENT, info_ptr->getProcessorManagerInfo());
+mythos::ProcessorManagement pm(mythos::init::PROCESSOR_MANAGEMENT);
 
 
 extern "C" void _init(){
