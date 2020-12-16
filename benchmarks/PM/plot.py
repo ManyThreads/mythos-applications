@@ -21,7 +21,7 @@ def read_data( file_name ):
 
 # reading data
 scenarios = ["PthreadCreate", "PthreadResponse", "PthreadJoin"]
-platforms = ["Mythos", "Linux"]
+platforms = ["Mythos", "Mythos_reuse", "Mythos_nosleep", "Linux"]
 
 data = []
 for s in scenarios:
@@ -36,7 +36,7 @@ for s in scenarios:
 df = pd.DataFrame(data, columns = ['platform', 'scenario', 'time']) 
 # print(df)
 
-ax = sns.boxplot(x='scenario', y='time', hue='platform', data=df)
+ax = sns.boxplot(x='scenario', y='time', hue='platform', data=df, showfliers=False)
 ax.set(xlabel='', ylabel='time in µs')
 plt.title("Posix-Thread Overhead")
 plt.savefig("pthread_overhead.pdf")

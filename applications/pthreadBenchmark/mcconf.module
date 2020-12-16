@@ -8,6 +8,7 @@
 TARGETS += app/init.elf
 APP_CXXFLAGS += -fopenmp
 APP_CXXFLAGS += $(BENCH_APP_FLAGS)
+KERNEL_CPPFLAGS += $(BENCH_KERNEL_FLAGS)
 '''
 
     makefile_body = '''
